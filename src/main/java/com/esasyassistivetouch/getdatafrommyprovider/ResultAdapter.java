@@ -5,7 +5,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,11 +14,11 @@ import java.util.List;
 
 public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ListItemViewHolder> {
 
-    private List<String> listResult;
+    private List<Student> listResult;
     private Context context;
     private OnItemClickListener onItemClickListener;
 
-    public ResultAdapter(List<String> listResult, Context context) {
+    public ResultAdapter(List<Student> listResult, Context context) {
         this.listResult = listResult;
         this.context = context;
     }
@@ -34,8 +33,10 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ListItemVi
     @SuppressLint({"CheckResult", "SetTextI18n"})
     @Override
     public void onBindViewHolder(@NonNull ListItemViewHolder holder, int position) {
-        String result = listResult.get(position);
-        holder.tvResult.setText(result);
+        Student student = listResult.get(position);
+        holder.tvStudentID.setText(student.getId());
+        holder.tvStudentName.setText(student.getName());
+        holder.tvStudentUni.setText(student.getUniversity());
 
     }
 
@@ -50,13 +51,15 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ListItemVi
 
 
     public class ListItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView  tvResult;
+        TextView  tvStudentID,tvStudentName,tvStudentUni;
         OnItemClickListener onItemClickListener;
 
         ListItemViewHolder(@NonNull View itemView, OnItemClickListener mOnItemClickListener) {
             super(itemView);
             itemView.setOnClickListener(this);
-            tvResult = itemView.findViewById(R.id.tv_result);
+            tvStudentID = itemView.findViewById(R.id.tv_student_id);
+            tvStudentName = itemView.findViewById(R.id.tv_student_name);
+            tvStudentUni = itemView.findViewById(R.id.tv_student_university);
             this.onItemClickListener = mOnItemClickListener;
         }
 
