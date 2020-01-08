@@ -1,4 +1,4 @@
-package com.esasyassistivetouch.getdatafrommyprovider;
+package com.esasyassistivetouch.getdatafrommyprovider.model;
 
 public class Student {
     private String id;

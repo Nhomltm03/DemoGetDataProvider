@@ -1,10 +1,11 @@
-package com.esasyassistivetouch.getdatafrommyprovider;
+package com.esasyassistivetouch.getdatafrommyprovider.main;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,8 +18,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
+import com.esasyassistivetouch.getdatafrommyprovider.R;
+import com.esasyassistivetouch.getdatafrommyprovider.adapter.OnItemClickListener;
+import com.esasyassistivetouch.getdatafrommyprovider.adapter.ResultAdapter;
+import com.esasyassistivetouch.getdatafrommyprovider.model.Student;
+
 
 import java.util.ArrayList;
 
@@ -47,9 +51,6 @@ public class MainActivity extends AppCompatActivity {
         rvResult.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rvResult.setItemAnimator(new DefaultItemAnimator());
         rvResult.setNestedScrollingEnabled(false);
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
         requestPermissions();
         listResult = getAllData();
         Button btDeleteAll = findViewById(R.id.bt_delete_all);
@@ -62,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
             resultAdapter.setItemOnclickListener(new OnItemClickListener() {
                 @Override
                 public void onClick(View view, int position, boolean isLongClick) {
-
+                    Log.e("type", "onClick: "+(getContentResolver()
+                            .getType(Uri.parse("content://com.esasyassistivetouch.democontentprovider.StudentProvider/StudentInformation/_uni"))));
                     Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                     intent.putExtra(EXTRA_ID, listResult.get(position).getId());
                     intent.putExtra(EXTRA_NAME, listResult.get(position).getName());
@@ -157,15 +159,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
-
-    @Subscribe
-    public void onEventMainThread(MessageEvent event) {
-        String msg = event.getMsg();
-        if (msg.equals("updateView")) {
-            resultAdapter.notifyDataSetChanged();
-            rvResult.setAdapter(resultAdapter);
-        }
-    }
-
 
 }

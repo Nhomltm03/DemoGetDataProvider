@@ -1,4 +1,4 @@
-package com.esasyassistivetouch.getdatafrommyprovider;
+package com.esasyassistivetouch.getdatafrommyprovider.main;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -11,6 +11,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.esasyassistivetouch.getdatafrommyprovider.message.MessageEvent;
+import com.esasyassistivetouch.getdatafrommyprovider.R;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -51,7 +54,7 @@ public class DetailActivity extends AppCompatActivity {
         btUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse("content://com.esasyassistivetouch.democontentprovider.StudentProvider/StudentInformation/3122");
+                Uri uri = Uri.parse("content://com.esasyassistivetouch.democontentprovider.StudentProvider/StudentInformation/");
                 ContentValues contentValues = new ContentValues();
                 contentValues.put("_name", edResultName.getText().toString());
                 contentValues.put("_uni", edResultUni.getText().toString());
