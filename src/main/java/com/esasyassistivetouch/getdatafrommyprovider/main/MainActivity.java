@@ -94,6 +94,19 @@ public class MainActivity extends AppCompatActivity {
                     resultAdapter = new ResultAdapter(listResult, MainActivity.this);
                     resultAdapter.notifyDataSetChanged();
                     rvResult.setAdapter(resultAdapter);
+                    resultAdapter.setItemOnclickListener(new OnItemClickListener() {
+                        @Override
+                        public void onClick(View view, int position, boolean isLongClick) {
+                            Log.e("type", "onClick: "+(getContentResolver()
+                                    .getType(Uri.parse("content://com.esasyassistivetouch.democontentprovider.data.StudentProvider/StudentInformation/_uni"))));
+                            Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                            intent.putExtra(EXTRA_ID, listResult.get(position).getId());
+                            intent.putExtra(EXTRA_NAME, listResult.get(position).getName());
+                            intent.putExtra(EXTRA_UNI, listResult.get(position).getUniversity());
+                            intent.putExtra(EXTRA_POSITION, position);
+                            startActivity(intent);
+                        }
+                    });
                 }
             });
         } else {
