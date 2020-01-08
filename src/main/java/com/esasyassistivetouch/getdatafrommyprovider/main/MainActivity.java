@@ -28,12 +28,12 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final Uri CONTENT_URI = Uri.parse("content://com.esasyassistivetouch.democontentprovider.StudentProvider/StudentInformation");
+    private static final Uri CONTENT_URI = Uri.parse("content://com.esasyassistivetouch.democontentprovider.data.StudentProvider/StudentInformation");
     private static final String COL_NAME = "_name";
     private static final String[] PROJECTION_UNI = {"*"};
     private static final String[] ARGUMENT_UNI = {"ptit"};
-    private static final String PERMISSION_PROVIDER_WRITE_DB = "com.esasyassistivetouch.democontentprovider.StudentProvider.WRITE_DATABASE";
-    private static final String PERMISSION_PROVIDER_READ_DB = "com.esasyassistivetouch.democontentprovider.StudentProvider.READ_DATABASE";
+    private static final String PERMISSION_PROVIDER_WRITE_DB = "com.esasyassistivetouch.democontentprovider.data.StudentProvider.WRITE_DATABASE";
+    private static final String PERMISSION_PROVIDER_READ_DB = "com.esasyassistivetouch.democontentprovider.data.StudentProvider.READ_DATABASE";
     private static final String EXTRA_ID = "extra_id";
     private static final String EXTRA_NAME = "extra_name";
     private static final String EXTRA_UNI = "extra_uni";
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view, int position, boolean isLongClick) {
                     Log.e("type", "onClick: "+(getContentResolver()
-                            .getType(Uri.parse("content://com.esasyassistivetouch.democontentprovider.StudentProvider/StudentInformation/_uni"))));
+                            .getType(Uri.parse("content://com.esasyassistivetouch.democontentprovider.data.StudentProvider/StudentInformation/_uni"))));
                     Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                     intent.putExtra(EXTRA_ID, listResult.get(position).getId());
                     intent.putExtra(EXTRA_NAME, listResult.get(position).getName());
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             btDeleteAll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Uri uri = Uri.parse("content://com.esasyassistivetouch.democontentprovider.StudentProvider/StudentInformation");
+                    Uri uri = Uri.parse("content://com.esasyassistivetouch.democontentprovider.data.StudentProvider/StudentInformation");
                     if (getContentResolver().delete(uri, null, null) != 0) {
                         listResult.clear();
                         resultAdapter.notifyDataSetChanged();
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<Student> getStudentByUni(String uni) {
         ArrayList<Student> listResult = new ArrayList<>();
         Cursor cursor;
-        Uri uri = Uri.parse("content://com.esasyassistivetouch.democontentprovider.StudentProvider/StudentInformation/_uni");
+        Uri uri = Uri.parse("content://com.esasyassistivetouch.democontentprovider.data.StudentProvider/StudentInformation/_uni");
         cursor = this.getContentResolver().query(uri, new String[]{"_id", "_name", "_uni"}, "_uni =?", new String[]{uni}, "_uni DESC");
         // SELECT String[]projection FROM TABLE_NAME_STUDENT WHERE selection =  String[] selectionArgs ORDER BY sortOrder;
         // SELECT _id, _name, _uni FROM StudentInformation WHERE _uni = uni ORDER BY _uni DESC;

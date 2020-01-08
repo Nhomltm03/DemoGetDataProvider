@@ -1,5 +1,6 @@
 package com.esasyassistivetouch.getdatafrommyprovider.main;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,10 +13,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.esasyassistivetouch.getdatafrommyprovider.message.MessageEvent;
 import com.esasyassistivetouch.getdatafrommyprovider.R;
 
-import org.greenrobot.eventbus.EventBus;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -40,25 +39,30 @@ public class DetailActivity extends AppCompatActivity {
         btDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse("content://com.esasyassistivetouch.democontentprovider.StudentProvider/StudentInformation/#");
+                Uri uri = Uri.parse("content://com.esasyassistivetouch.democontentprovider.data.StudentProvider/StudentInformation/#");
                 if (getContentResolver().delete(uri, "_id = " + tvResultID.getText(), null) != 0) {
                     tvResultID.setText("");
                     edResultName.setText("");
                     edResultUni.setText("");
-                    EventBus.getDefault().post(new MessageEvent("updateView"));
                 } else {
                     Toast.makeText(DetailActivity.this, "Erros !", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         btUpdate.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ShowToast")
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse("content://com.esasyassistivetouch.democontentprovider.StudentProvider/StudentInformation/");
+                Uri uri = Uri.parse("content://com.esasyassistivetouch.democontentprovider.data.StudentProvider/StudentInformation/_uni");
                 ContentValues contentValues = new ContentValues();
                 contentValues.put("_name", edResultName.getText().toString());
                 contentValues.put("_uni", edResultUni.getText().toString());
-                getContentResolver().update(uri, contentValues, "_id = " + tvResultID.getText(), null);
+                getContentResolver().update(uri, contentValues, "_id = ?", new String[]{tvResultID.getText().toString()});
+/*                if (getContentResolver().update(uri, contentValues, "_id = " + tvResultID.getText(), null)!=0) {
+                    Toast.makeText(DetailActivity.this,"Update thanh cong",Toast.LENGTH_SHORT);
+                } else {
+                    Toast.makeText(DetailActivity.this,"Loi",Toast.LENGTH_SHORT);
+                }*/
             }
         });
 
